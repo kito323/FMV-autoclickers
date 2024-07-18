@@ -1,0 +1,5 @@
+Crop or animal | A or B
++
+nth entity | #
++
+nth level | # (1,2,3,4,5)
