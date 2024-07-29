@@ -67,7 +67,8 @@ class ClickMouse(threading.Thread):
         # print(settingsWindow)
 
         numDay = 1
-        numMonth = 1
+        # numMonth = 1
+        countMonth = 0
 
         # Set regions (used in fast-finding) to default None
         regionIconWhack = None
@@ -105,25 +106,26 @@ class ClickMouse(threading.Thread):
                         # Update date and click "Change"
 
                         # Day
-                        if numDay <= 28:
+                        if numDay < 30:
                             pyautogui.press("down")
                             numDay += 1
                         else:
                             pyautogui.press("1")
                             numDay = 1
-                        pyautogui.press("tab")
+                        # pyautogui.press("tab")
 
-                        # Month
-                        if numMonth > 12:
-                            self.exit()
-                            break
-                        elif numDay == 1:
-                            pyautogui.press("down")
-                            numMonth += 1
-                        else: pass
-                        pyautogui.press("tab", presses=4, interval=0.1)
+                        # # Month
+                        # if numMonth > 12:
+                        #     self.exit()
+                        #     break
+                        # elif numDay == 1:
+                        #     pyautogui.press("down")
+                        #     numMonth += 1
+                        # else: pass
+
+                        pyautogui.press("tab", presses=5, interval=0.1)
                         pyautogui.press("enter")
-                        print(numDay, numMonth)
+                        print(numDay) #, numMonth)
                         time.sleep(1)
                         
                         # Swap to discord
@@ -152,23 +154,26 @@ class ClickMouse(threading.Thread):
                             print("'Collect' worked 2nd time")
                         except Exception as e: pass
 
-                        time.sleep(2)
-                        pyautogui.click(pyautogui.locateCenterOnScreen("TimeButtonMarketMain.PNG", confidence=0.95, region=regionIconWhack))
-                        
-                        time.sleep(1)
-                        # Fastclicks
-                        for i, button in enumerate(["Free", "Energy", "Free", "Gems", "Free"]):
-                            pyautogui.click(pyautogui.locateCenterOnScreen("TimeButtonMarket" + button + ".PNG", confidence=0.7, region=regionIconWhack))
-                            time.sleep(0.1)
+                        if numDay != 30:
+                            time.sleep(2)
+                            pyautogui.click(pyautogui.locateCenterOnScreen("TimeButtonMarketMain.PNG", confidence=0.95, region=regionIconWhack))
+                            
+                            time.sleep(1)
+                            # Fastclicks
+                            for i, button in enumerate(["Free", "Energy", "Free", "Gems", "Free"]):
+                                pyautogui.click(pyautogui.locateCenterOnScreen("TimeButtonMarket" + button + ".PNG", confidence=0.7, region=regionIconWhack))
+                                time.sleep(0.1)
+                            countMonth += 1
                         time.sleep(1)
 
                         mainWindow.minimize()
                         time.sleep(1)
 
-                    except Exception as e: pass #print("b2", e)
+                    except Exception as e: print("b2", e)
                     # if not self.running: break # Include after things that might take awhile within single iteration
                 
             time.sleep(1) # When program loops emptily then save recources with longer sleep times
+        print("No. of month  loops:", countMonth)
   
   
 # instance of mouse controller is created
